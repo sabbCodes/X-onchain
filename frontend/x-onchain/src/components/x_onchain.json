@@ -1,0 +1,391 @@
+{
+  "address": "4se6A74JXwE467VyoVpB9DcitWk9jd7Mf68XsbZ1r31T",
+  "metadata": {
+    "name": "x_onchain",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "create_profile",
+      "discriminator": [
+        225,
+        205,
+        234,
+        143,
+        17,
+        186,
+        50,
+        220
+      ],
+      "accounts": [
+        {
+          "name": "profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "handle",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "follow_user",
+      "discriminator": [
+        126,
+        176,
+        97,
+        36,
+        63,
+        145,
+        4,
+        134
+      ],
+      "accounts": [
+        {
+          "name": "user_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "target_profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "target"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "target"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "like_tweet",
+      "discriminator": [
+        248,
+        27,
+        137,
+        254,
+        228,
+        130,
+        141,
+        149
+      ],
+      "accounts": [
+        {
+          "name": "tweet",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "send_tweet",
+      "discriminator": [
+        179,
+        213,
+        79,
+        165,
+        123,
+        247,
+        82,
+        109
+      ],
+      "accounts": [
+        {
+          "name": "tweet",
+          "writable": true
+        },
+        {
+          "name": "profile",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  111,
+                  102,
+                  105,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "author"
+              }
+            ]
+          }
+        },
+        {
+          "name": "author",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "profile"
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "content",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Profile",
+      "discriminator": [
+        184,
+        101,
+        165,
+        188,
+        95,
+        63,
+        127,
+        188
+      ]
+    },
+    {
+      "name": "Tweet",
+      "discriminator": [
+        229,
+        13,
+        110,
+        58,
+        118,
+        6,
+        20,
+        79
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "TweetLiked",
+      "discriminator": [
+        77,
+        140,
+        67,
+        248,
+        123,
+        46,
+        242,
+        156
+      ]
+    },
+    {
+      "name": "UserFollowed",
+      "discriminator": [
+        202,
+        223,
+        169,
+        156,
+        158,
+        234,
+        167,
+        17
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ContentTooLong",
+      "msg": "Tweet content too long"
+    }
+  ],
+  "types": [
+    {
+      "name": "Profile",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "author",
+            "type": "pubkey"
+          },
+          {
+            "name": "handle",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "tweet_count",
+            "type": "u64"
+          },
+          {
+            "name": "followers",
+            "type": "u64"
+          },
+          {
+            "name": "following",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Tweet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "author",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "content",
+            "type": "string"
+          },
+          {
+            "name": "likes",
+            "type": "u64"
+          },
+          {
+            "name": "comments",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TweetLiked",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tweet",
+            "type": "pubkey"
+          },
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserFollowed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "follower",
+            "type": "pubkey"
+          },
+          {
+            "name": "following",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}
